@@ -1,0 +1,81 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block meta %}
+  {% if category is None %}
+    <meta name="description" content="EatRoot online Food delivery Partner" />
+  {% else %}
+  <style>
+   
+  </style>
+    <meta name="description" content="{{ category.desc|truncatewords:155 }}" />
+  {% endif %}
+{% endblock %}
+{% block title %}
+  {{ category.name }} -mocajo online shop
+{% endblock %}
+
+{% block content %}
+
+<!-- JQUERY STEP -->
+
+<form method="post" >
+    {% csrf_token %}
+    <!-- 2 column grid layout with text inputs for the first and last names -->
+    <div class="row mb-4">
+      <div class="col">
+        <div data-mdb-input-init class="form-outline">
+          <input type="text" id="form6Example1" class="form-control" name="customer"/>
+          <label class="form-label" for="form6Example1"> name</label>
+        </div>
+      </div>
+      
+      
+    </div>
+  
+    <!-- Text input -->
+    <div data-mdb-input-init class="form-outline mb-4">
+      <input type="tel" id="form6Example3" class="form-control" name="mobile"/>
+      <label class="form-label" for="form6Example3">Mobile</label>
+    </div>
+  
+    <!-- Text input -->
+    <div data-mdb-input-init class="form-outline mb-4">
+      <input type="text" id="form6Example4" class="form-control" name="address"/>
+      <label class="form-label" for="form6Example4">Address</label>
+    </div>
+    <div data-mdb-input-init class="form-outline mb-4">
+        <input type="tel" id="form6Example5" class="form-control" name="country"/>
+        <label class="form-label" for="form6Example3">Country</label>
+      </div>
+      <div data-mdb-input-init class="form-outline mb-4">
+        <input type="tel" id="form6Example7" class="form-control" name="zip"/>
+        <label class="form-label" for="form6Example3">Zip Code</label>
+      </div>
+    <!-- Email input -->
+ <div class="col">
+    <div data-mdb-input-init class="form-outline mb-4">
+        <input  type="radio" id="form6Example6" class="form-check-input" name="payment" value="COD"/>
+        <label class="form-label" for="form6Example6">Cash on delivery</label>
+      </div>
+    </div>
+    <div class="row"></div>
+    <div class="col">
+        <div data-mdb-input-init class="form-outline mb-4">
+            <input type="radio" id="form6Example8" class="form-check-input" name="payment" value="Online Pay"/>
+            <label class="form-label" for="form6Example6">Online payment</label>
+          </div>
+        </div>
+       
+       
+    <!-- Message input -->
+    <div data-mdb-input-init class="form-outline mb-4">
+      <textarea class="form-control" id="form6Example9" rows="4" name="notes"></textarea>
+      <label class="form-label" for="form6Example7">Additional information</label>
+    </div>
+
+  
+    <!-- Submit button -->
+    <button data-mdb-ripple-init type="submit" class="btn btn-primary btn-block mb-4">Place order</button>
+  </form>
+ 
+  {% endblock %}

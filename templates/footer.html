@@ -1,0 +1,32 @@
+{% load static %}
+
+  <!-- Footer -->
+  <footer class="text-center text-white " style="background-color: #0a4275; display: block;">
+    <!-- Grid container -->
+    <div class="container p-4 pb-0">
+      <!-- Section: CTA -->
+     
+        <p class="d-flex justify-content-center align-items-center">
+          <span class="me-3">Register for free</span>
+          <a href="{% url 'auth_app:signup' %}"><button data-mdb-ripple-init type="button" class="btn btn-outline-light btn-rounded">
+            Sign up!
+          </button></a>&nbsp;
+          <a href="{% url 'auth_app:signin' %}"><button data-mdb-ripple-init type="button" class="btn btn-outline-light btn-rounded bg-success">
+            Sign in!
+          </button></a>
+
+        </p>
+ 
+      <!-- Section: CTA -->
+    </div>
+    <!-- Grid container -->
+
+    <!-- Copyright -->
+    <div class="text-center p-3" style="background-color: rgba(0, 0, 0, 0.2);">
+      © 2020 Copyright:
+      <a class="text-white" href="{% url 'user_app:home' %}">EatRoot</a>
+    </div>
+    <!-- Copyright -->
+
+  </footer>
+  <!-- Footer -->

@@ -1,0 +1,37 @@
+
+{% extends 'base.html' %}
+{% load static %}
+
+
+{% block meta %}
+
+<meta name="description" content="{{hotel.desc | truncatewords:155}}">
+
+
+{% endblock %}
+
+{% block title %}
+
+{{hotel.name}} -mocajo online shop
+
+{% endblock %}
+
+{% block content %}
+
+
+<h2 class="pt-3" >Which Restaurant would You like to order <span style="font-weight: bold;">{{foods.name}}</span></h2>
+
+<div class="row">
+{% for i in ht %}
+<div class="col-sm-4 col-md-6 col-lg-4 m-4">
+    <a style="text-decoration: none;" href="{{i.get_url}}">
+        <div class="bg-image text-center shadow-1-strong rounded text-white" style="background-image: url('{{ i.img.url }}');">
+         <h1 class="mb-3 h2">{{ i.name }}</h1>
+          <p>{{ i.desc }}</p>
+        </div>
+    </a>
+</div>
+{% endfor %}
+</div>
+
+{% endblock %}

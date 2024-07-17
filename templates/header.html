@@ -1,0 +1,90 @@
+{% load static %}
+
+<header>
+
+  <div class="py-3 text-center bg-white border-bottom">
+    <div class="container">
+      <div class="row ">
+        <!-- Left elements -->
+        <div class="col-lg-2 col-md-6 col-sm-12 col-3">
+          <a
+            href="{% url 'user_app:home' %}"
+            target="_blank"
+            class="float-start shadow"
+          >
+            <img src="{% static 'img/eatrootlogo.png/' %}" height="35" />
+          </a>
+        </div>
+        <!-- Left elements -->
+        <div class="col-lg-5 col-md-5 col-sm-5 col-6">
+          <div class="input-group float-center">
+            <div class="form-outline">
+              <form
+                class="d-flex"
+                role="search"
+                action="{% url 'search_app:search' %}"
+                method="get"
+              >
+                {% csrf_token %}
+                <input
+                  type="search"
+                  name="q"
+                  id="form1"
+                  class="form-control shadow"
+                />
+                <label class="form-label" for="form1">Search</label>
+
+                <button type="submit" class="btn btn-primary shadow-0">
+                  <i class="fas fa-search"></i>
+                </button>
+              </form>
+            </div>
+          </div>
+        </div>
+        
+        <!-- Center elements -->
+        <div class="col-lg-2 col-sm-2 col-1 ">
+          <div class="d-flex float-end shadow ">
+            <a
+              href=""
+              class=" py-1 px-3 nav-link d-flex align-items-center"
+              target="_blank"
+            >
+              <i class="fas fa-shopping-cart m-1 me-md-2"></i>
+              <p class="d-none d-md-block mb-0">hdhd</p>
+            </a>
+          </div>
+        </div>
+        <div class="col-lg-2 col-sm-2 col-1">
+          
+          {% if user.role == customer  %}
+        </button></a>&nbsp;
+        <a href="{% url 'auth_app:signin' %}"><button data-mdb-ripple-init type="button" class="btn btn-outline-light btn-rounded bg-success">
+          Sign in!
+        </button></a>
+        {% else %}
+        <div class="dropdown" >
+          <button class="btn " type="button" data-bs-toggle="dropdown" aria-expanded="false">
+            <i class="fas fa fa-user-circle-o m-1 me-md-2"></i>
+          </button>
+          <ul class="dropdown-menu">
+            {% if user.role == customer %}
+            <li><a class="dropdown-item" href="{% url 'auth_app:signin' %}"><i class="fa fa-sign-in m-1 me-md-2"></i>sign in</a></li>
+            <li><a class="dropdown-item" href="{% url 'auth_app:signup' %}"><i class="fa fa-user-plus m-1 me-md-2"></i>Register</a></li>
+            {% else %}
+             <li><a class="dropdown-item" href="#"><i class="fa fa-user-circle-o m-1 me-md-2"></i>{{user.username}}</a></li>
+             <li><a class="dropdown-item" href="#"><i class="fa fa-shopping-cart m-1 me-md-2"></i>My Orders</a></li>
+             <li><a class="dropdown-item" href="{% url 'auth_app:signout' %}"><i class="fa fa-sign-out m-1 me-md-2"></i>sign out</a></li>
+             
+             {% endif %}
+          </ul>
+        </div>
+          {% endif %}
+            
+        
+          </div>
+      </div>
+      </div>
+  </div>
+  </div>
+</header>
