@@ -70,11 +70,11 @@ def signout(request):
 
 def h_extract_signup(name,email,pasw1,request):
 
-    user = User.objects.create_user(role="CUSTOMER",username = name, email=email, password=pasw1)
+    user = User.objects.create_user(role="HOTEL",username = name, email=email, password=pasw1)
     if user is None:
         return redirect('auth_app:h_signin')
     user.save()
-    user_login = auth.authenticate(username=name, password=pasw1)
+    user_login = auth.authenticate(username=name, password=pasw1, role="HOTEL")
     auth.login(request, user_login)
     return redirect('hotel_app:setting')
     
@@ -109,7 +109,7 @@ def h_signin(request):
         return render(request, 'h_signin.html')
     name = request.POST['username']
     pasw = request.POST['password']
-    role = 'CUSTOMER'
+    role = 'HOTEL'
     user = auth.authenticate(username=name, password=pasw,role=role)
     print(name,pasw,user)
     if user is not None:
@@ -129,13 +129,13 @@ def h_signout(request):
 
 def d_extract_signup(name,email,pasw1,request):
 
-    user = User.objects.create_user(role="CUSTOMER",username = name, email=email, password=pasw1)
+    user = User.objects.create_user(role="DELIVERY",username = name, email=email, password=pasw1)
     if user is None:
         return redirect('auth_app:d_signin')
     user.save()
     user_login = auth.authenticate(username=name, password=pasw1)
     auth.login(request, user_login)
-    return redirect('delivery_app:home')
+    return redirect('delivery_app:setting')
     
 
 def d_signup(request):
@@ -156,7 +156,7 @@ def d_signup(request):
             messages.info(request,"sorry, Email already exist")
             return redirect('auth_app:d_signup')
         else:
-            return h_extract_signup(name,email,pasw1,request)
+            return d_extract_signup(name,email,pasw1,request)
 
     else:
         messages.info(request,"sorry, password doesn't match")
@@ -168,7 +168,7 @@ def d_signin(request):
         return render(request, 'd_signin.html')
     name = request.POST['username']
     pasw = request.POST['password']
-    role = 'CUSTOMER'
+    role = 'DELIVERY'
     user = auth.authenticate(username=name, password=pasw,role=role)
    
     if user is not None:

@@ -4,6 +4,7 @@ from hotel_app.models import Category, Food, Hotel
 
 # Create your views here.
 
+
 def search(request):
     foods = None
     ht = None

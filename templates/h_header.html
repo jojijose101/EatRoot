@@ -1,1 +1,48 @@
-<h1>header</h1>
+<!--Main Navigation-->
+{% load static %}
+<header>
+
+    <!-- Navbar -->
+    <nav id="main-navbar" class="navbar navbar-expand-lg bg-body">
+      <!-- Container wrapper -->
+      <div class="container-fluid">
+  
+        <!-- Search form -->
+        <div class="col-lg-2 col-md-6 col-sm-12 col-3">
+            <a
+              href="{% url 'hotel_app:home' %}"
+              target="_blank"
+              class="float-start shadow"
+            >
+              <img src="{% static 'img/eatrootlogo.png/' %}" height="35"  />
+            </a><span style="font-weight: bold; color: #dd005391; font-size: 20px;">Hotel Partner</span>
+          </div>
+  
+        <!-- Right links -->
+        <ul class="navbar-nav ms-auto d-flex flex-row">
+          <!-- Notification dropdown -->
+         
+  
+          <!-- Icon dropdown -->
+          
+  
+          <!-- Avatar -->
+
+          <li class="nav-item dropdown">
+            <a data-mdb-dropdown-init class="nav-link dropdown-toggle hidden-arrow d-flex align-items-center" href="#"
+              id="navbarDropdownMenuLink" role="button" aria-expanded="false">
+              <img src="{{hotel_link.img.url}}" class="rounded-circle" height="35" width="30" alt="Avatar"
+                loading="lazy" />
+            </a>
+            <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdownMenuLink">
+              <li><a class="dropdown-item" href="{% url 'hotel_app:setting' %}">My profile</a></li>
+              <li><a class="dropdown-item" href="{% url 'auth_app:h_signout' %}">Logout</a></li>
+            </ul>
+          </li>
+        </ul>
+      </div>
+     
+    </nav>
+    
+  </header>
+  <!--Main Navigation-->

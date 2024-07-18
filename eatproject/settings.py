@@ -77,6 +77,8 @@ TEMPLATES = [
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
                 'user_app.context_processors.links',
+                'delivery_app.context_processors.links',
+                'hotel_app.context_processors.links',
             ],
         },
     },

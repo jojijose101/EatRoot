@@ -4,6 +4,7 @@ from .models import DelUser
 from django.core.paginator import Paginator, InvalidPage, EmptyPage
 from django.db.models  import Q
 from django.contrib import messages
+from django.template.defaultfilters import slugify
 from authenticate_users.decorators import delivery_user_required
 from django.contrib.auth import authenticate, login, logout
 
@@ -16,45 +17,27 @@ def home(request):
 
 @delivery_user_required
 def setting(request):  # sourcery skip: extract-duplicate-method
-    del_profile = DelUser.objects.get(user=request.user)
+    try:
+        del_profile = DelUser.objects.get(user=request.user)
+        is_new_profile = False
+    except DelUser.DoesNotExist:
+        del_profile = DelUser(user=request.user)
+        is_new_profile = True
+
     if request.method == 'POST':
-        
+        if 'image' in request.FILES:
+            del_profile.img = request.FILES['image']
+        del_profile.desc = request.POST.get('desc', del_profile.desc)
+        del_profile.location = request.POST.get('location', del_profile.location)
+        del_profile.name = request.POST.get('name', del_profile.name)
+        contact = request.POST.get('contact', del_profile.contact)
 
-        if request.FILES.get('image') is None:
-           Image = del_profile.img
-           desc =request.POST['desc']
-           Location = request.POST['location']
-           name = request.POST['name']
-           
-           contact = request.POST['contact']
-
-
-
-           del_profile.img = Image
-           del_profile.desc = desc
-           del_profile.location = Location
-           del_profile.name =name
-           del_profile.contact = contact
-           del_profile.save()
-
-          
-
-        if request.FILES.get('image') != None:
-            Image = request.FILES.get('img')
-            name = request.POST['name']
-            contact = request.POST['contact']
-
-
-
-            del_profile.img = Image
-            del_profile.desc = desc
-            del_profile.location = Location
-            del_profile.name =desc
-            del_profile.contact = contact
-            del_profile.save()
-
+        if is_new_profile: # Automatically generate a slug
+            del_profile.slug = slugify(del_profile.name)  
             
-
-        return redirect('delivery_app:setting')
         
-    return render(request, 'd_profile.html', {'user_profile':del_profile})
+        del_profile.contact = contact
+        del_profile.save()
+        return redirect('delivery_app:home')  # Redirect to the same page to avoid re-submission
+    return render(request, 'd_profile.html', {'user_profile': del_profile, 'is_new_profile': is_new_profile})
+

@@ -15,7 +15,7 @@ class DelUser(models.Model):
     location = models.TextField()
     desc = models.TextField(blank=True)
     img = models.ImageField(upload_to='deliverygallery',default="delivery-boy_10367830.png")
-    contact = models.IntegerField()
+    contact = models.CharField(max_length=15,blank=True, null=True)
     class Meta:
         ordering = ('name',)
         verbose_name = 'delivery boy'

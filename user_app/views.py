@@ -22,7 +22,7 @@ def home(request,c_slug =None):
     paginator = Paginator(foods,8)
     try:
         page = int(request.GET.get('page','1'))
-    except:
+    except Exception:
         page = 1
     try:
         foods = paginator.page(page)
@@ -87,7 +87,7 @@ def foodfind(request,f_slug,c_slug):
     return render(request,'foodfind.html',{'foods':food,'ht':hotels_of_fd})
 
 @customer_required
-def order_user(request, or_id):
+def order_user(request, or_id):  # sourcery skip: avoid-builtin-shadow
     order = get_object_or_404(OrderItem, id=or_id)
     if request.method == 'POST':
         name = request.POST.get('customer')

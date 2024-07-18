@@ -20,15 +20,43 @@ eatroot-hotel-profile
                         <a class="nav-link active" id="home-tab" data-toggle="tab" href="#home" role="tab" aria-controls="home" aria-selected="false">Profile</a>
                     </li>
                 </ul>
+                <style>
+                  /* Hide the actual file input */
+                  .custom-file-input {
+                      display: none; /* Hides the file input */
+                  }
+          
+                  /* Style the custom file input label */
+                  .custom-file-label {
+                      display: inline-block;
+                      padding: 10px 20px;
+                      font-size: 16px;
+                      color: white;
+                      background-color: #007bff;
+                      border: 1px solid #007bff;
+                      border-radius: 4px;
+                      cursor: pointer;
+                      text-align: center;
+                      transition: background-color 0.3s ease, border-color 0.3s ease;
+                  }
+          
+                  .custom-file-label:hover {
+                      background-color: #0056b3;
+                      border-color: #0056b3;
+                  }
+              </style>
                 <form method="post" enctype="multipart/form-data">
                   {% csrf_token %}
                     <div class="row mt-5 align-items-center">
                         <div class="col-md-6 text-center mb-5">
-                              <img id ="" src="{{user_profile.profileimg.url}}" alt="..." class=" rounded-circle" style="max-width:150px; max-height:220px;" />
+                              <img id ="" src="{{user_profile.img.url}}" alt="..." class=" rounded-circle " style="width: inherit;max-height: 174px;object-fit: cover;" />
                               
-                              <input id="imageUpload" type="file"  name="image" placeholder="Photo" required="" capture>
-  
-                            <div>
+                              <input class="custom-file-input" id="fileInput" type="file"  name="image" placeholder="Photo" capture>
+ <br>
+                              <label for="fileInput" class="custom-file-label">Edit</label>
+                              <hr>
+                              &nbsp;
+                            <div class="mt-5" style="text-align: left; margin-bottom: -69px;">
                               <h4  id ="profileButton" >Edit picture</h4>
                             </div>
                         </div>
@@ -36,8 +64,9 @@ eatroot-hotel-profile
                         <div class="col">
                             <div class="row align-items-center">
                                 <div class="col-md-6" >
-                                    <h4 class="mb-1">@{{user.username}}</h4>
-                                    <p><strong>{{user_profile.name}}</strong></p>
+                                    
+                                    <h4><strong>{{user_profile.name}}</strong></h4>
+                                    <p class="mb-1">@{{user.username}}</p>
                                     <p class="small mb-3"><span class="badge badge-dark">{{user_profile.location}}</span></p>
                                 </div>
                             </div>
@@ -55,9 +84,10 @@ eatroot-hotel-profile
                     <hr class="my-4" />
                     <div class=" row">
                       <div class="col-md-6 mb-4">
-                        <div class="form-outline">
-                          <input type="text" id="form3Example1" class="form-control" name="name" value="{{user_profile.firstnm}}" />
-                          <label class="form-label" for="form3Example1">name</label>
+                        <div data-mdb-input-init class="form-outline mb-4">
+                          <input name="name" type="name" id="form3Example3" class="form-control form-control-lg"
+                            value="{{user_profile.name}}" />
+                          <label class="form-label" for="form3Example3">hotel Name</label>
                         </div>
                       </div>
                   
@@ -71,22 +101,31 @@ eatroot-hotel-profile
                   
                   
                   <div class=" mb-4">
-                    <div class="form-outline">
-                      <input readonly type="email" id="form3Example1" class="form-control" name="email" value="{{user.email}}" />
-                      <label class="form-label" for="form3Example1">email</label>
+                    <div data-mdb-input-init class="form-outline mb-4">
+                      <input name="email" type="name" id="form3Example3" class="form-control form-control-lg"
+                        placeholder="Enter a valid Email" value="{{user.email}}" readonly />
+                      <label class="form-label" for="form3Example3">Email</label>
                     </div>
                   </div>
                   
-                    
+                  <div class=" mb-4">
+                    <div data-mdb-input-init class="form-outline mb-4">
+                      <input name="contact" type="name" id="form3Example3" class="form-control form-control-lg"
+                        placeholder="Enter a valid Mobile number" value="{{user_profile.contact}}" required />
+                      <label class="form-label" for="form3Example3">Mobile</label>
+                    </div>
+                  </div>
                   
-                  <div class="form-outline mb-4">
-                    <input type="text" id="form3Example3" class="form-control" name="location" value="{{user_profile.location}}"/>
+                  <div data-mdb-input-init class="form-outline mb-4">
+                    <input name="location" type="name" id="form3Example3" class="form-control form-control-lg"
+                      placeholder="Enter a valid Address" value="{{user_profile.location}}"/>
                     <label class="form-label" for="form3Example3">Address</label>
                   </div>
                   <div class=" mb-4">
-                    <div class="form-outline">
-                      <textarea type="textarea" id="form3Example1" class="form-control" name="bio" style="height:100px" >{{user_profile.desc}}</textarea>
-                      <label class="form-label" for="form3Example1">About</label>
+                    <div data-mdb-input-init class="form-outline mb-4">
+                      <input name="desc" type="name" id="form3Example3" class="form-control form-control-lg"
+                        placeholder="Description" value="{{user_profile.desc}}" required />
+                      <label class="form-label" for="form3Example3">Description</label>
                     </div>
                   </div>
                   <!-- Password input -->
@@ -100,7 +139,13 @@ eatroot-hotel-profile
     
     </div>
       
-  
+    <script>
+      document.getElementById('fileInput').addEventListener('change', function() {
+          var fileName = this.files.length > 0 ? this.files[0].name : 'No file chosen';
+          var label = document.querySelector('label[for="fileInput"]');
+          label.textContent = fileName; // Update the label text with the selected file name
+      });
+  </script>
     <!-- Section: Design Block -->
 
 {% endblock %}

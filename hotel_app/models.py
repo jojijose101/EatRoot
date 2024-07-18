@@ -56,11 +56,11 @@ class Hotel(models.Model):
     user = models.ForeignKey(user,on_delete=models.CASCADE)
     name = models.CharField(max_length=250,unique=True)
     slug = models.SlugField(max_length=250,unique=True)
-    foods = models.ManyToManyField(Food)
+    foods = models.ManyToManyField(Food,blank=True)
     location = models.TextField()
     desc = models.TextField(blank=True)
     img = models.ImageField(upload_to='hotelgallery',default="hoteldefault.jpg")
-    contact = models.IntegerField()
+    contact = models.CharField(max_length=15,blank=True, null=True)
     class Meta:
         ordering = ('name',)
         verbose_name = 'hotel'

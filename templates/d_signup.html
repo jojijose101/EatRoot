@@ -1,15 +1,111 @@
-{% extends 'd_base.html' %}
 {% load static %}
-{% block meta %}
-
-    <meta name="description" content="eatroot-delivery-signup" />
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <link
+  href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css"
+  rel="stylesheet"
+/>
+<!-- Google Fonts -->
+<link
+  href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&display=swap"
+  rel="stylesheet"
+/>
+    <!-- External Css -->
+    <link rel="stylesheet" href="{% static 'css/mdb.min.css' %}" />
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
  
-{% endblock %}
-{% block title %}
-eatroot-delivery-signup
-{% endblock %}
 
-{% block content %}
+</head>
+<body>
 
-<h1>signup</h1>
-{% endblock %}
+
+<section class="vh-100">
+  <div class="container-fluid h-custom" style="margin-top: 20px; min-height: 50rem;" >
+   
+    <div class="row d-flex justify-content-center align-items-center h-100">
+      
+      <div class="col-md-9 col-lg-6 col-xl-5">
+        <h1>Sign Up</h1>
+        <img src="https://img.freepik.com/free-vector/hand-drawn-flat-design-delivery-concept_23-2149157498.jpg?t=st=1721328995~exp=1721332595~hmac=4058ff4f342b0629a1dd72bdbbbc132bcc6abec3ed1d6cdf90428021027ab8bb&w=740"
+          class="img-fluid" alt="Sample image">
+      </div>
+
+   
+     
+
+
+      <div class="col-md-8 col-lg-6 col-xl-4 offset-xl-1">
+        
+      {% for message in messages %}
+      <p style="color: red;">{{message}}</p>
+          
+      {% endfor %}
+        <form method="post" >
+         {% csrf_token %}
+
+         <div data-mdb-input-init class="form-outline mb-4">
+          <input name="username" type="name" id="form3Example3" class="form-control form-control-lg"
+            placeholder="Enter a valid username" required/>
+          <label class="form-label" for="form3Example3">username</label>
+        </div>
+
+          <!-- Email input -->
+         
+          <div data-mdb-input-init class="form-outline mb-4">
+            <input name="email" type="name" id="form3Example3" class="form-control form-control-lg"
+              placeholder="Enter a valid Email" required />
+            <label class="form-label" for="form3Example3">Email</label>
+          </div>
+
+          <!-- Password input -->
+          <div data-mdb-input-init class="form-outline mb-3">
+            <input name="password1" type="password" id="form3Example4" class="form-control form-control-lg"
+              placeholder="Enter password" required/>
+            <label class="form-label" for="form3Example4">Password</label>
+          </div>
+          <div data-mdb-input-init class="form-outline mb-3">
+            <input name="password2" type="password" id="form3Example4" class="form-control form-control-lg"
+              placeholder="Enter password" required/>
+            <label class="form-label" for="form3Example4">Re-password</label>
+          </div>
+
+          <div class="d-flex justify-content-between align-items-center">
+            <!-- Checkbox -->
+            <div class="form-check mb-0">
+              <input class="form-check-input me-2" type="checkbox" value="" id="form2Example3" />
+              <label class="form-check-label" for="form2Example3">
+                Remember me
+              </label>
+            </div>
+            <a href="#!" class="text-body">Forgot password?</a>
+          </div>
+
+          <div class="text-center text-lg-start mt-4 pt-2">
+            <button type="submit" class="btn btn-primary btn-block" data-mdb-ripple-init>Sign up</button>
+            <p class="small fw-bold mt-2 pt-1 mb-0">Already have an account? <a href="{% url 'auth_app:d_signin' %}"
+                class="link-danger">Login</a></p>
+          </div>
+
+        </form>
+      </div>
+    </div>
+  </div>
+  <div
+    class="d-flex flex-column flex-md-row text-center text-md-start justify-content-between py-4 px-4 px-xl-5 bg-primary">
+    <!-- Copyright -->
+    <div class="text-white mb-3 mb-md-0">
+      Copyright © 2024. All rights reserved.
+    </div>
+    
+  </div>
+</section>
+<script
+ 
+  src="{% static 'js/mdb.umd.min.js' %}"
+></script>
+</body>
+</html>
