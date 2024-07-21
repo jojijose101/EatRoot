@@ -36,7 +36,6 @@ class UserOrder(models.Model):
     STATUS = (
         ('pending','pending'),
         ('order placed','order placed'),
-        ('hotel done','hotel done'),
         ('out for delivery', 'out for delivery'),
         ('delivery compleated','delivery compleated')
     )

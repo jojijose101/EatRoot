@@ -5,9 +5,11 @@
       <h6 class="mb-0">
         <a href="{% url 'hotel_app:home' %}" class="text-reset">Home</a>
         <span>/</span>
-        <a href="" class="text-reset">Earnings</a>
+        <a href="{% url 'hotel_app:earnings' %}" class="text-reset">Earnings</a>
         <span>/</span>
-        <a href="" class="text-reset"><u>My deliveries</u></a>
+        <a href="{% url 'hotel_app:h_orders' %}" class="text-reset"><u>My orders</u></a>
+        <span>/</span>
+        <a href="{% url 'hotel_app:add_food' %}" class="text-reset">Add food</a>
       </h6>
     </nav>
     <!-- Breadcrumb -->

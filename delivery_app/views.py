@@ -11,7 +11,10 @@ from django.contrib.auth import authenticate, login, logout
 # Create your views here.
 
 @delivery_user_required
-def home(request):
+def home(request,d_id=None):
+    
+
+
     return render(request, 'd_home.html')
 
 
