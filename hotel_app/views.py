@@ -3,6 +3,7 @@ from django.forms import ValidationError
 from django.shortcuts import redirect, render,get_object_or_404
 from authenticate_users.decorators import hotel_user_required
 from hotel_app.models import Hotel, Category,Food
+from user_app.models import UserOrder
 from django.template.defaultfilters import slugify
 from django.core.paginator import Paginator, InvalidPage, EmptyPage
 from django.db.models  import Q
@@ -46,7 +47,26 @@ def setting(request):
 
 
 def h_orders(request):
-    return render(request,'h_orders.html')
+    STATUS = (
+        ('pending','pending'),
+        ('order placed','order placed'),
+        ('out for delivery', 'out for delivery'),
+        ('delivery compleated','delivery compleated')
+    )
+    hotel = Hotel.objects.get(user = request.user)
+    usr_order = UserOrder.objects.filter(order__hotel=hotel)
+    orders = usr_order.filter(status=STATUS[0])
+    order_placed = usr_order.filter(status=STATUS[1])
+    completed = usr_order.filter(status=STATUS[3])
+    context = {
+        'orders':orders,
+        'order_placed':order_placed,
+        'completed':completed
+
+    }
+   
+
+    return render(request,'h_orders.html',context)
 
 
 def add_food(request):
@@ -74,7 +94,8 @@ def add_food(request):
     return render(request,'h_add_food.html',{'categories':categories})
 
 def earnings(request):
-    return render(request,'h_earnings.html')
+    earnings = Hotel.objects.get(user=request.user) 
+    return render(request,'h_earnings.html',{'earnings':earnings})
 
 
 def edit_food(request,f_slug):
@@ -111,3 +132,25 @@ def edit_food(request,f_slug):
 
 
     return render(request,'h_edit_food.html',{'food':food,"cat":cat,'categories':Categories})
+
+
+def order_view(request,or_id):
+    STATUS = (
+        ('pending','pending'),
+        ('order placed','order placed'),
+        ('out for delivery', 'out for delivery'),
+        ('delivery compleated','delivery compleated')
+    )
+    order = UserOrder.objects.get(id=or_id)
+    foods = order.order.o_food.all()
+    earn = order.order.total_amount-20
+    if request.method == "POST":
+        hotel=Hotel.objects.get(user=request.user)
+        hotel.earn += earn
+        hotel.save()
+        order.status = STATUS[1]
+        order.save()
+        return redirect('hotel_app:h_orders')
+
+    
+    return render(request,'h_order_placing.html',{'foods':foods,'order':order,'earn':earn})

@@ -27,19 +27,164 @@ eatroot-delivery-home
   </div>
   <div class="card-body">
     <div id="orders" style="display: block;">
-      <h5 class="card-title">Orders</h5>
-      <p class="card-text">Content for Orders tab goes here.</p>
-      <a href="#" class="btn btn-primary">Button</a>
+      
+      {% if orders %}
+   
+      
+      {% for order in orders %}
+      <a href="{% url 'hotel_app:order_view' order.id %}">
+      <div class="row align-items-center">
+      
+      
+        <div class="col-md-2 d-flex justify-content-center">
+          <div>
+            <p class="small text-muted mb-4 pb-2">Customer</p>
+            <p class="lead fw-normal mb-0">{{order.customer}}</p>
+          </div>
+        </div>
+        <div class="col-md-2 d-flex justify-content-center">
+          <div>
+            <p class="small text-muted mb-4 pb-2">Address</p>
+            <p class="lead fw-normal mb-0"><i class="fas fa-circle me-2" style="color: #fdd8d2;"></i>
+              {{order.address}}</p>
+          </div>
+        </div>
+        <div class="col-md-2 d-flex justify-content-center">
+          <div>
+            <p class="small text-muted mb-4 pb-2">Mobile</p>
+            <p class="lead fw-normal mb-0">{{order.mobile}}</p>
+          </div>
+        </div>
+        <div class="col-md-2 d-flex justify-content-center">
+          <div>
+            <p class="small text-muted mb-4 pb-2">Notes</p>
+            <p class="lead fw-normal mb-0">{{order.notes}}</p>
+          </div>
+        </div>
+        <div class="col-md-3 d-flex justify-content-center">
+          <div>
+            <p class="small text-muted mb-4 pb-2">Order_id</p>
+            <p class="lead fw-normal mb-0">{{order.order.o_id}}</p>
+          </div>
+        </div>
+      </div>
+    </a>
+{% endfor %}
+{% else %}
+<h5 class="card-title">Orders</h5>
+      <p class="card-text">There is no orders found.</p>
+      
+      {% endif %}
     </div>
+
+
+
+
     <div id="delivery" style="display: none;">
-      <h5 class="card-title">Out for Delivery</h5>
-      <p class="card-text">Content for Out for Delivery tab goes here.</p>
-      <a href="#" class="btn btn-primary">Button</a>
+      {% if order_placed %}
+   
+      
+      
+      {% for order in order_placed %}
+      
+      <div class="row align-items-center">
+      
+       
+        <div class="col-md-2 d-flex justify-content-center">
+          <div>
+            <p class="small text-muted mb-4 pb-2">Customer</p>
+            <p class="lead fw-normal mb-0">{{order.customer}}</p>
+          </div>
+        </div>
+        <div class="col-md-2 d-flex justify-content-center">
+          <div>
+            <p class="small text-muted mb-4 pb-2">Address</p>
+            <p class="lead fw-normal mb-0">
+              {{order.address}}</p>
+          </div>
+        </div>
+        <div class="col-md-2 d-flex justify-content-center">
+          <div>
+            <p class="small text-muted mb-4 pb-2">Mobile</p>
+            <p class="lead fw-normal mb-0">{{order.mobile}}</p>
+          </div>
+        </div>
+        <div class="col-md-2 d-flex justify-content-center">
+          <div>
+            <p class="small text-muted mb-4 pb-2">Notes</p>
+            <p class="lead fw-normal mb-0">{{order.notes}}</p>
+          </div>
+        </div>
+        <div class="col-md-3 d-flex justify-content-center">
+          <div>
+            <p class="small text-muted mb-4 pb-2">Order_id</p>
+            <p class="lead fw-normal mb-0">{{order.order.o_id}}</p>
+          </div>
+        </div>
+        
+      </div>
+    
+{% endfor %}
+{% else %}
+<h5 class="card-title">Orders placed</h5>
+      <p class="card-text">There is no orders placed.</p>
+      
+      
+{% endif %}
     </div>
     <div id="completed" style="display: none;">
-      <h5 class="card-title">Completed</h5>
-      <p class="card-text">Content for Completed tab goes here.</p>
-      <a href="#" class="btn btn-primary">Button</a>
+      {% if compleated %}
+   
+      
+      
+      {% for order in compleated %}
+      
+      <div class="row align-items-center">
+      
+        <div class="col-md-2">
+          <img src="https://mdbcdn.b-cdn.net/img/Photos/Horizontal/E-commerce/Products/1.webp"
+            class="img-fluid" alt="Generic placeholder image">
+        </div>
+        <div class="col-md-2 d-flex justify-content-center">
+          <div>
+            <p class="small text-muted mb-4 pb-2">Customer</p>
+            <p class="lead fw-normal mb-0">{{order.customer}}</p>
+          </div>
+        </div>
+        <div class="col-md-2 d-flex justify-content-center">
+          <div>
+            <p class="small text-muted mb-4 pb-2">Address</p>
+            <p class="lead fw-normal mb-0">
+             {{order.customer}}</p>
+          </div>
+        </div>
+        <div class="col-md-2 d-flex justify-content-center">
+          <div>
+            <p class="small text-muted mb-4 pb-2">Mobile</p>
+            <p class="lead fw-normal mb-0">{{compleated.mobile}}</p>
+          </div>
+        </div>
+        <div class="col-md-2 d-flex justify-content-center">
+          <div>
+            <p class="small text-muted mb-4 pb-2">Notes</p>
+            <p class="lead fw-normal mb-0">{{order.notes}}</p>
+          </div>
+        </div>
+        <div class="col-md-3 d-flex justify-content-center">
+          <div>
+            <p class="small text-muted mb-4 pb-2">Order_id</p>
+            <p class="lead fw-normal mb-0">{{order.order.o_id}}</p>
+          </div>
+        </div>
+      </div>
+   
+{% endfor %}
+{% else %}
+<h5 class="card-title">Completed</h5>
+      <p class="card-text">There is no order compleated.</p>
+      
+      
+{% endif %}
     </div>
   </div>
 </div>

@@ -61,6 +61,7 @@ class Hotel(models.Model):
     desc = models.TextField(blank=True)
     img = models.ImageField(upload_to='hotelgallery',default="hoteldefault.jpg")
     contact = models.CharField(max_length=15,blank=True, null=True)
+    earn = models.DecimalField(default=0,max_digits=10,decimal_places=2,blank=True,null=True)
     class Meta:
         ordering = ('name',)
         verbose_name = 'hotel'

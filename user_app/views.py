@@ -83,6 +83,7 @@ def hotels(request,h_slug):
 def foodfind(request,f_slug,c_slug):
     food = get_object_or_404(Food,slug=f_slug)
     hotels_of_fd = Hotel.objects.all().filter(foods=food)
+    
 
     return render(request,'foodfind.html',{'foods':food,'ht':hotels_of_fd})
 
@@ -103,14 +104,14 @@ def order_user(request, or_id):  # sourcery skip: avoid-builtin-shadow
             u_order = UserOrder.objects.create(
                 customer=name, address=address, mobile=mobile,
                 notes=notes, country=country, zip=zip, payment=payment,
-                payment_type=payment_type, delivery=None, order=order
+                payment_type=payment_type, delivery_b=None, order=order
             )
             u_order.save()
             return HttpResponse('success')
         except Exception as e:
             return HttpResponse(f"Can't make orders: {e}")
         
-    return HttpResponse('Invalid request')
+    return render(request,'order.html')
 
 
 

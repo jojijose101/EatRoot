@@ -11,6 +11,7 @@ urlpatterns = [
     path('hotel/add_food', views.add_food,name='add_food'),
     path('hotel/earnings', views.earnings,name='earnings'),
     path('hotel/edit_food/<slug:f_slug>', views.edit_food,name='edit_food'),
+    path('hotel/order_view/<int:or_id>', views.order_view,name='order_view'),
 
 
     
