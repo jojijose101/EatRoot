@@ -28,16 +28,17 @@ class OrderItem(models.Model):
     
 
 class UserOrder(models.Model):
-    STATUS = (
-        ('pending','pending'),
-        ('order placed','order placed'),
-        ('out for delivery', 'out for delivery'),
-        ('delivery compleated','delivery compleated')
+    STATUS_CHOICES = (
+        ('pending', 'Pending'),
+        ('order_placed', 'Order Placed'),
+        ('out_for_delivery', 'Out for Delivery'),
+        ('delivery_completed', 'Delivery Completed')  # Corrected spelling
     )
-    PAYMENT = (
-        ('online pay', 'online pay'),
-        ('COD','COD')
+    PAYMENT_CHOICES = (
+        ('online_pay', 'Online Payment'),
+        ('COD', 'Cash on Delivery')
     )
+    
     customer = models.CharField(max_length=250)
     order = models.ForeignKey(OrderItem,on_delete=models.CASCADE)
     address = models.TextField()
@@ -45,12 +46,13 @@ class UserOrder(models.Model):
     country = models.CharField(max_length=250)
     zip = models.IntegerField()
     notes = models.TextField()
-    status = models.CharField(max_length=250,choices=STATUS,default=STATUS[0])
-    payment_type = models.CharField(max_length=250,choices=PAYMENT)
+    status = models.CharField(max_length=250,choices=STATUS_CHOICES,default=STATUS_CHOICES[0])
+    payment_type = models.CharField(max_length=250,choices=PAYMENT_CHOICES)
     payment = models.BooleanField(default=False)
     delivery_b = models.IntegerField(null=True,blank=True)
     created = models.DateTimeField(auto_now_add=True)
     updated = models.DateTimeField(auto_now=True)
+    otp = models.IntegerField(null=True,blank=True)
 
     def __str__(self):
         return self.customer
@@ -58,7 +60,19 @@ class UserOrder(models.Model):
         return reverse('user_app:orderuser',args=[self.id])  
     
     def __str__(self):
-        return f'{self.user}'
+        return f'{self.customer}'
     
+
+class Customer(models.Model):
+    user = models.ForeignKey(user,on_delete=models.CASCADE)
+    name = models.CharField(max_length=250,unique=True)
+    slug = models.SlugField(max_length=250,unique=True)
+    location = models.TextField()
+    desc = models.TextField(blank=True)
+    img = models.ImageField(upload_to='cutomergallery',default="user-profile.jpg")
+    contact = models.CharField(max_length=15,blank=True, null=True)
+    
+    def __str__(self):
+        return self.name
 
 

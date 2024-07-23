@@ -1,13 +1,16 @@
 from django.http import HttpResponse
 from django.shortcuts import redirect, render,get_object_or_404
 from authenticate_users.decorators import customer_required
+from delivery_app.models import DelUser
 from hotel_app.models import Hotel, Category,Food
 from django.core.paginator import Paginator, InvalidPage, EmptyPage
 from django.db.models  import Q
 from django.contrib import messages
+import random
+from django.template.defaultfilters import slugify
 from django.contrib.auth import authenticate, login, logout, get_user
 from authenticate_users.decorators import customer_required, hotel_user_required
-from.models import OrderFood, OrderItem, UserOrder
+from.models import Customer, OrderFood, OrderItem, UserOrder
 
 # Create your views here.
 
@@ -99,11 +102,12 @@ def order_user(request, or_id):  # sourcery skip: avoid-builtin-shadow
         zip = request.POST.get('zip')
         payment_type = request.POST.get('payment')
         payment = payment_type == "Online Pay"
+        otp = random.randint(1000,9999)
 
         try:
             u_order = UserOrder.objects.create(
                 customer=name, address=address, mobile=mobile,
-                notes=notes, country=country, zip=zip, payment=payment,
+                notes=notes, country=country, zip=zip,status='pending',otp=otp, payment=payment,
                 payment_type=payment_type, delivery_b=None, order=order
             )
             u_order.save()
@@ -113,10 +117,69 @@ def order_user(request, or_id):  # sourcery skip: avoid-builtin-shadow
         
     return render(request,'order.html')
 
+@customer_required
+def order_view(request):
+   
+        
+    user_orders = UserOrder.objects.filter(order__user=request.user)
+    orders_pending = user_orders.filter(status='pending')
+    orders_placed = user_orders.filter(status='order_placed')
+    orders_out_for_delivery = user_orders.filter(status='out_for_delivery')
+    orders_completed = user_orders.filter(status='delivery_completed')
+        
+    context = {
+            'orders_pending': orders_pending,
+            'orders_placed': orders_placed,
+            'orders_out_for_delivery': orders_out_for_delivery,
+            'orders_completed': orders_completed,
+        }
+    
+    return render(request, 'order_view.html', context)
 
+@customer_required
+def order(request,o_id):
+    order = UserOrder.objects.get(id=o_id)
+    foods = order.order.o_food.all()
+    earn = order.order.total_amount-20
+    if request.method == 'POST':
+        order.delete()
+        return redirect('user_app:home')
+   
+    return render(request,'order_pending.html',{'order':order,'foods':foods,'earn':earn})
 
-
+@customer_required
+def order_confirm(request,o_id):
+    order = UserOrder.objects.get(id=o_id)
+    foods = order.order.o_food.all()
+    earn = order.order.total_amount-20
+    d_b = DelUser.objects.get(id=order.delivery_b)
+    
+   
+    return render(request,'order_confirm.html',{'order':order,'foods':foods,'earn':earn,'d_b':d_b})
    
 
+@customer_required
+def setting(request):  # sourcery skip: extract-duplicate-method
+    try:
+        usr_profile = Customer.objects.get(user=request.user)
+        is_new_profile = False
+    except Customer.DoesNotExist:
+        usr_profile = Customer(user=request.user)
+        is_new_profile = True
 
+    if request.method == 'POST':
+        if 'image' in request.FILES:
+            usr_profile.img = request.FILES['image']
+        usr_profile.desc = request.POST.get('desc', usr_profile.desc)
+        usr_profile.location = request.POST.get('location', usr_profile.location)
+        usr_profile.name = request.POST.get('name', usr_profile.name)
+        contact = request.POST.get('contact', usr_profile.contact)
 
+        if is_new_profile: # Automatically generate a slug
+            usr_profile.slug = slugify(usr_profile.name)  
+            
+        
+        usr_profile.contact = contact
+        usr_profile.save()
+        return redirect('user_app:home')  # Redirect to the same page to avoid re-submission
+    return render(request, 'profile.html', {'user_profile': usr_profile, 'is_new_profile': is_new_profile})

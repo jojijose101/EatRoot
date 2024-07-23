@@ -17,7 +17,9 @@ def extract_signup(name,email,pasw1,request):
     if user is None:
         return redirect('auth_app:signin')
     user.save()
-    return redirect('user_app:home')
+    user_login = auth.authenticate(username=name, password=pasw1, role="CUSTOMER")
+    auth.login(request, user_login)
+    return redirect('user_app:profile')
     
 
 def signup(request):

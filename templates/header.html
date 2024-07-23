@@ -1,90 +1,93 @@
 {% load static %}
 
-<header>
-
-  <div class="py-3 text-center bg-white border-bottom">
-    <div class="container">
-      <div class="row ">
-        <!-- Left elements -->
-        <div class="col-lg-2 col-md-6 col-sm-12 col-3">
-          <a
-            href="{% url 'user_app:home' %}"
-            target="_blank"
-            class="float-start shadow"
-          >
-            <img src="{% static 'img/eatrootlogo.png/' %}" height="35" />
-          </a>
-        </div>
-        <!-- Left elements -->
-        <div class="col-lg-5 col-md-5 col-sm-5 col-6">
-          <div class="input-group float-center">
-            <div class="form-outline">
-              <form
-                class="d-flex"
-                role="search"
-                action="{% url 'search_app:search' %}"
-                method="get"
-              >
-                {% csrf_token %}
-                <input
-                  type="search"
-                  name="q"
-                  id="form1"
-                  class="form-control shadow"
-                />
-                <label class="form-label" for="form1">Search</label>
-
-                <button type="submit" class="btn btn-primary shadow-0">
-                  <i class="fas fa-search"></i>
-                </button>
-              </form>
-            </div>
-          </div>
-        </div>
+<nav class="navbar navbar-light bg-body-tertiary">
+  <div class="container-fluid">
+    <a class="navbar-brand">EatRoot.</a>
+    <form class="d-flex input-group w-auto" action="{% url 'search_app:search' %}" method="get">
+      {% csrf_token %}
+      <input
+        type="search"
+        name="q"
+        class="form-control rounded"
+        placeholder="Search"
+        aria-label="Search"
+        aria-describedby="search-addon"
+      />
+      <button type="submit" class="navbar-toggler">
+      <span class="input-group-text border-0" id="search-addon">
+        <i class="fas fa-search"></i>
+      </span></button>
+    </form>
+    <div class="d-flex align-items-center">
+    <a class="text-reset me-3" href="{% url 'user_app:orders_view' %}">
+      <i class="fas fa-shopping-cart"></i>
+    </a>
+    {% if user.role == "CUSTOMER" %}
+    <div class="dropdown">
+      <a
+        data-mdb-dropdown-init
+        class="dropdown-toggle d-flex align-items-center hidden-arrow"
+        href="#"
+        id="navbarDropdownMenuAvatar"
+        role="button"
+        aria-expanded="false"
+      >
+        <img
+          src="https://img.freepik.com/free-photo/user-profile-icon-front-side-with-white-background_187299-40010.jpg?t=st=1721749209~exp=1721752809~hmac=190992e7180a3c62443362f1378423c112fa531a819c6d9da1cadb96aee4b234&w=740"
+          class="rounded-circle"
+          height="25"
+          alt="Black and White Portrait of a Man"
+          loading="lazy"
+        />
+      </a>
+      <ul
+        class="dropdown-menu dropdown-menu-end"
+        aria-labelledby="navbarDropdownMenuAvatar"
+      >
+        <li>
+          <a class="dropdown-item" href="{% url 'user_app:profile' %}">My profile</a>
+        </li>
+        <li>
+          <a class="dropdown-item" href="{% url 'user_app:orders_view' %}">My orders</a>
+        </li>
+        <li>
+          <a class="dropdown-item" href="{% url 'auth_app:signout' %}">Logout</a>
+        </li>
+      </ul>
+    </div>
+    {% else %}
+    <div class="dropdown">
+      <a
+        data-mdb-dropdown-init
+        class="dropdown-toggle d-flex align-items-center hidden-arrow"
+        href="#"
+        id="navbarDropdownMenuAvatar"
+        role="button"
+        aria-expanded="false"
+      >
+        <img
+          src="https://img.freepik.com/free-vector/user-circles-set_78370-4704.jpg?t=st=1721749126~exp=1721752726~hmac=0295b51429df16e1ed9eb1413681f332185bf9c21293cf48210cac1530594bff&w=740"
+          class="rounded-circle"
+          height="25"
+          alt="Black and White Portrait of a Man"
+          loading="lazy"
+        />
+      </a>
+      <ul
+        class="dropdown-menu dropdown-menu-end"
+        aria-labelledby="navbarDropdownMenuAvatar"
+      >
+        <li>
+          <a class="dropdown-item" href="{% url 'auth_app:signin' %}">Log in</a>
+        </li>
+        <li>
+          <a class="dropdown-item" href="{% url 'auth_app:signup' %}">Sign up</a>
+        </li>
         
-        <!-- Center elements -->
-        <div class="col-lg-2 col-sm-2 col-1 ">
-          <div class="d-flex float-end shadow ">
-            <a
-              href=""
-              class=" py-1 px-3 nav-link d-flex align-items-center"
-              target="_blank"
-            >
-              <i class="fas fa-shopping-cart m-1 me-md-2"></i>
-              <p class="d-none d-md-block mb-0">hdhd</p>
-            </a>
-          </div>
-        </div>
-        <div class="col-lg-2 col-sm-2 col-1">
-          
-          {% if user.role == customer  %}
-        </button></a>&nbsp;
-        <a href="{% url 'auth_app:signin' %}"><button data-mdb-ripple-init type="button" class="btn btn-outline-light btn-rounded bg-success">
-          Sign in!
-        </button></a>
-        {% else %}
-        <div class="dropdown" >
-          <button class="btn " type="button" data-bs-toggle="dropdown" aria-expanded="false">
-            <i class="fas fa fa-user-circle-o m-1 me-md-2"></i>
-          </button>
-          <ul class="dropdown-menu">
-            {% if user.role == customer %}
-            <li><a class="dropdown-item" href="{% url 'auth_app:signin' %}"><i class="fa fa-sign-in m-1 me-md-2"></i>sign in</a></li>
-            <li><a class="dropdown-item" href="{% url 'auth_app:signup' %}"><i class="fa fa-user-plus m-1 me-md-2"></i>Register</a></li>
-            {% else %}
-             <li><a class="dropdown-item" href="#"><i class="fa fa-user-circle-o m-1 me-md-2"></i>{{user.username}}</a></li>
-             <li><a class="dropdown-item" href="#"><i class="fa fa-shopping-cart m-1 me-md-2"></i>My Orders</a></li>
-             <li><a class="dropdown-item" href="{% url 'auth_app:signout' %}"><i class="fa fa-sign-out m-1 me-md-2"></i>sign out</a></li>
-             
-             {% endif %}
-          </ul>
-        </div>
-          {% endif %}
-            
-        
-          </div>
-      </div>
-      </div>
+      </ul>
+    </div>
+    {% endif %}
+    </div>
   </div>
   </div>
-</header>
+</nav>

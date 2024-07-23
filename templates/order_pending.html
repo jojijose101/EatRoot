@@ -1,31 +1,25 @@
-
 {% extends 'base.html' %}
 {% load static %}
-
-
 {% block meta %}
 
-<meta name="description" content="{{hotel.desc | truncatewords:155}}">
-
-
+    <meta name="description" content="eatroot-delivery-home" />
+ 
 {% endblock %}
-
 {% block title %}
-
-{{hotel.name}} -mocajo online shop
-
+eatroot-delivery-home
 {% endblock %}
 
 {% block content %}
 
 
-  <section class="h-100 h-custom" style="background-color: #eee;">
+<section class="h-100 h-custom" style="background-color: #eee;">
     <div class="container py-5 h-100">
       <div class="row d-flex justify-content-center align-items-center h-100">
         <div class="col">
           <div class="card">
             <div class="card-body p-4">
-
+                <form method="post">
+                    {% csrf_token %}
               <div class="row">
 
                 <div class="col-lg-7">
@@ -35,12 +29,10 @@
 
                   <div class="d-flex justify-content-between align-items-center mb-4">
                     <div>
-                      <p class="mb-0">Hotel have {{hotel.foods.count}} items </p>
+                     
                     </div>
                   </div>
-                <form method="post" action="" id="orderForm">
-                    {% csrf_token %}
-                   <input name="hotel_id" value="{{hotel.id}}" hidden>
+                
 
                   {% for food in foods %}
                       <div class="card mb-3">
@@ -48,55 +40,56 @@
                               <div class="d-flex justify-content-between">
                                   <div class="d-flex flex-row align-items-center">
                                       <div>
-                                          <img src="{{ food.img.url }}" class="img-fluid rounded-3" alt="Shopping item" style="width: 100px;">
+                                          <img src="{{ food.food.img.url }}" class="img-fluid rounded-3" alt="Shopping item" style="width: 100px;">
                                       </div>
                                       <div class="ms-3">
-                                          <h5>{{ food.name }}</h5>
-                                          <p class="small mb-0">{{ food.dec }}</p>
+                                          <h5>{{ food.food.name }}</h5>
+                                          <p class="small mb-0">{{ food.food.dec }}</p>
                                       </div>
-                                      <input name="fd_id" value="{{food.id}}" hidden>
+                                    
                                   </div>
                                   
                                   
-                                  <div class="def-number-input number-input safari_only">
-                                    <button type="button" onclick="changeQuantity({{ food.id }}, 1)" class="plus form-control">+</button>
-                                      <input id="quantityInput{{ food.id }}" class="quantity form-control fw-bold bg-body-tertiary text-body" min="0" name="food_quantity_{{ food.id }}" value="0" type="tel" oninput="updateTotal({{ food.id }})" style="width: 70px;">
-                                      
-                                      <button type="button" onclick="changeQuantity({{ food.id }}, -1)" class="minus form-control">-</button>
-                                  </div>
+                                  <div style="width: 80px;margin-top: 40px;">
+                                    <h6 class="mb-0"><span >1X</span>{{food.quantity}}</h6>
+                                </div>
                                   <div class="d-flex flex-row align-items-center">
                                       <div style="width: 80px;">
-                                          <h6 class="mb-0" id="price{{ food.id }}">{{ food.price }}</h6>
+                                          <h6 class="mb-0" id="price{{ food.food.id }}">{{ food.food.price }}</h6>
                                       </div>
                                       <div style="margin-left: 10px;">
-                                          <h6 class="mb-0"><span id="totalPrice{{ food.id }}">10.00</span></h6>
+                                          <h6 class="mb-0"><span id="totalPrice{{ food.id }}">{{food.q_total}}</span></h6>
                                       </div>
                                   </div>
                               </div>
                           </div>
                       </div>
                   {% endfor %}
-                  
                 </div>
                 
                 <div class="col-lg-5">
 
                   <div class="card bg-primary text-white rounded-3">
                     <div class="card-body">
+                      <h3>Hotel:</h3>
+                      <hr>
                       <div class="d-flex justify-content-between align-items-center mb-4">
-                        <h5 class="mb-0">{{hotel.name}}</h5>
-                        <img src="{{hotel.img.url}}"
-                          class="img-fluid rounded-3" style="width: 105px; height: 85px;" alt="Avatar">
+                        <h5 class="mb-0">{{order.order.hotel.name}}</h5>
                       </div>
-                    <input name="hotel" value="{{hotel.id}}" hidden>
-                      <p class="small mb-2">{{hotel.desc}}</p>
-                      <p><span>Address: </span>{{hotel.location}}</p>
+                   
+                      <p ><span>mob: </span>{{order.order.hotel.contact}}</p>
+                      <p><span>Address: </span>{{order.order.hotel.location}}</p>
+                      <p><span>Description: </span>{{order.order.hotel.desc}}</p>
 
+                     
                       <hr class="my-4">
-
                       <div class="d-flex justify-content-between">
-                        <p class="mb-2" >Subtotal</p>
-                        <p class="mb-2" id="grandTotal">$<span id="subtotalValue">0.00</span></p>
+                        <p class="mb-2" >Payment method</p>
+                        <p class="mb-2" id="grandTotal">{{order.payment_type}}</p>
+                      </div>
+                      <div class="d-flex justify-content-between">
+                        <p class="mb-2" >Hotel payment</p>
+                        <p class="mb-2" id="grandTotal"><span id="subtotalValue">{{earn}}</span>.00</p>
                       </div>
 
                       <div class="d-flex justify-content-between">
@@ -106,16 +99,18 @@
 
                       <div class="d-flex justify-content-between mb-4">
                         <p class="mb-2">Total(Incl. taxes)</p>
-                        <p class="mb-2" id="grandTotalWithFixed">$<span id="totalWithTaxes">20.00</span></p>
+                        <p class="mb-2" id="grandTotalWithFixed">Rs.<span id="totalWithTaxes">{{order.order.total_amount}}.00</span></p>
                       </div>
-
-                      <button type="submit"  class="btn btn-info btn-block btn-lg">
+                    
+                 
+                      <button type="submit" class="btn btn-info btn-block btn-lg">
                         <div class="d-flex justify-content-between">
-                          <span id="grandTotalWithFixed2">$<span id="totalWithTaxes2">20.00</span></span>
-                          <span>Checkout <i class="fas fa-long-arrow-alt-right ms-2"></i></span>
+                          
+                          <span>Cancel Order <i class="fas fa-long-arrow-alt-right ms-2"></i></span>
                         </div>
-                      </button>
-
+                     
+                    </button>
+                    
                     </div>
                   </div>
 
@@ -130,36 +125,5 @@
     </div>
   </section>
 
-<script src="{% static 'js/hotel.js' %}"></script>  
-   
-    
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-        
-  </div>
-
-  {% endblock %}
+  <script src="{% static 'js/hotel.js' %}"></script> 
+{% endblock %}

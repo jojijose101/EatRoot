@@ -1,0 +1,28 @@
+{% extends 'd_base.html' %}
+{% load static %}
+{% block meta %}
+
+    <meta name="description" content="eatroot-delivery-home" />
+ 
+{% endblock %}
+{% block title %}
+eatroot-delivery-home
+{% endblock %}
+
+{% block content %}
+<div class="container">
+<div class="row col-lg-4 col-sm-12">
+<div class="card bg-success">
+    <div class="card-body">
+      <h5 class="card-title">Earnings</h5>
+      <p class="card-text" style="font-weight: bold; color: white;"><span>Rs: </span>{{earnings.earn}}</p>
+      <h5 class="card-title">Floating Cash</h5>
+      <p class="card-text" style="font-weight: bold; color: white;"><span>Rs: </span>{{earnings.floating}}</p>
+      <h5 class="card-title">Your Total Earnings</h5>
+      <p class="card-text" style="font-weight: bold; color: white;"><span>Rs: </span>{{earnings.total_earnings}}</p>
+      
+    </div>
+  </div>
+</div>
+</div>
+{% endblock %}

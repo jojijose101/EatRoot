@@ -11,11 +11,13 @@ eatroot-delivery-home
 
 {% block content %}
 
+
+
 <div class="card text-center">
   <div class="card-header">
     <ul id="myTab" class="nav nav-tabs card-header-tabs">
       <li class="nav-item">
-        <a id="tab-orders" class="nav-link active" aria-current="true" href="#" onclick="showTab('orders', 'tab-orders')">Orders</a>
+        <a id="tab-orders" class="nav-link active" aria-current="true" href="#" onclick="showTab('orders', 'tab-orders')">My Orders</a>
       </li>
       <li class="nav-item">
         <a id="tab-delivery" class="nav-link" href="#" onclick="showTab('delivery', 'tab-delivery')">Out for Delivery</a>
@@ -27,19 +29,162 @@ eatroot-delivery-home
   </div>
   <div class="card-body">
     <div id="orders" style="display: block;">
-      <h5 class="card-title">Orders</h5>
-      <p class="card-text">Content for Orders tab goes here.</p>
-      <a href="#" class="btn btn-primary">Button</a>
+      
+      {% if orders %}
+   
+      
+      {% for order in orders %}
+      <a href="{% url 'delivery_app:order_view' order.id%}">
+      <div class="row align-items-center">
+      
+      
+        <div class="col-md-2 d-flex justify-content-center">
+          <div>
+            <p class="small text-muted mb-4 pb-2">Customer</p>
+            <p class="lead fw-normal mb-0">{{order.customer}}</p>
+          </div>
+        </div>
+        <div class="col-md-2 d-flex justify-content-center">
+          <div>
+            <p class="small text-muted mb-4 pb-2">Address</p>
+            <p class="lead fw-normal mb-0">
+              {{order.address}}</p>
+          </div>
+        </div>
+        <div class="col-md-2 d-flex justify-content-center">
+          <div>
+            <p class="small text-muted mb-4 pb-2">Mobile</p>
+            <p class="lead fw-normal mb-0">{{order.mobile}}</p>
+          </div>
+        </div>
+        <div class="col-md-2 d-flex justify-content-center">
+          <div>
+            <p class="small text-muted mb-4 pb-2">Notes</p>
+            <p class="lead fw-normal mb-0">{{order.notes}}</p>
+          </div>
+        </div>
+        <div class="col-md-3 d-flex justify-content-center">
+          <div>
+            <p class="small text-muted mb-4 pb-2">Order_id</p>
+            <p class="lead fw-normal mb-0">{{order.order.o_id}}</p>
+          </div>
+        </div>
+      </div>
+    </a>
+{% endfor %}
+{% else %}
+<h5 class="card-title">Orders</h5>
+      <p class="card-text">There is no orders found.</p>
+      
+      {% endif %}
     </div>
+
+
+
+
     <div id="delivery" style="display: none;">
-      <h5 class="card-title">Out for Delivery</h5>
-      <p class="card-text">Content for Out for Delivery tab goes here.</p>
-      <a href="#" class="btn btn-primary">Button</a>
+      {% if o_f_d %}
+   
+      
+      
+      {% for order in o_f_d %}
+      <a href="{% url 'delivery_app:order_confirm' order.id %}">
+      <div class="row align-items-center">
+      
+       
+        <div class="col-md-2 d-flex justify-content-center">
+          <div>
+            <p class="small text-muted mb-4 pb-2">Customer</p>
+            <p class="lead fw-normal mb-0">{{order.customer}}</p>
+          </div>
+        </div>
+        <div class="col-md-2 d-flex justify-content-center">
+          <div>
+            <p class="small text-muted mb-4 pb-2">Address</p>
+            <p class="lead fw-normal mb-0">
+              {{order.address}}</p>
+          </div>
+        </div>
+        <div class="col-md-2 d-flex justify-content-center">
+          <div>
+            <p class="small text-muted mb-4 pb-2">Mobile</p>
+            <p class="lead fw-normal mb-0">{{order.mobile}}</p>
+          </div>
+        </div>
+        <div class="col-md-2 d-flex justify-content-center">
+          <div>
+            <p class="small text-muted mb-4 pb-2">Notes</p>
+            <p class="lead fw-normal mb-0">{{order.notes}}</p>
+          </div>
+        </div>
+        <div class="col-md-3 d-flex justify-content-center">
+          <div>
+            <p class="small text-muted mb-4 pb-2">Order_id</p>
+            <p class="lead fw-normal mb-0">{{order.order.o_id}}</p>
+          </div>
+        </div>
+        
+      </div>
+    
+{% endfor %}
+</a>
+{% else %}
+<h5 class="card-title">Orders placed</h5>
+      <p class="card-text">There is no orders placed.</p>
+      
+      
+{% endif %}
     </div>
     <div id="completed" style="display: none;">
-      <h5 class="card-title">Completed</h5>
-      <p class="card-text">Content for Completed tab goes here.</p>
-      <a href="#" class="btn btn-primary">Button</a>
+      {% if completed %}
+   
+      
+      
+      {% for order in completed %}
+      
+      <div class="row align-items-center">
+      
+        
+        <div class="col-md-2 d-flex justify-content-center">
+          <div>
+            <p class="small text-muted mb-4 pb-2">Customer</p>
+            <p class="lead fw-normal mb-0">{{order.customer}}</p>
+          </div>
+        </div>
+        <div class="col-md-2 d-flex justify-content-center">
+          <div>
+            <p class="small text-muted mb-4 pb-2">Address</p>
+            <p class="lead fw-normal mb-0">
+             {{order.customer}}</p>
+          </div>
+        </div>
+        <div class="col-md-2 d-flex justify-content-center">
+          <div>
+            <p class="small text-muted mb-4 pb-2">Mobile</p>
+            <p class="lead fw-normal mb-0">{{order.mobile}}</p>
+          </div>
+        </div>
+        <div class="col-md-2 d-flex justify-content-center">
+          <div>
+            <p class="small text-muted mb-4 pb-2">Notes</p>
+            <p class="lead fw-normal mb-0">{{order.notes}}</p>
+          </div>
+        </div>
+        <div class="col-md-3 d-flex justify-content-center">
+          <div>
+            <p class="small text-muted mb-4 pb-2">Order_id</p>
+            <p class="lead fw-normal mb-0">{{order.order.o_id}}</p>
+          </div>
+        </div>
+      </div>
+   
+{% endfor %}
+{% else %}
+<h5 class="card-title">Completed</h5>
+      <p class="card-text">There is no order compleated.</p>
+      
+      
+{% endif %}
     </div>
   </div>
 </div>
@@ -63,6 +208,7 @@ eatroot-delivery-home
     document.getElementById(tabId).classList.add('active');
   }
 </script>
+
 
 
 {% endblock %}

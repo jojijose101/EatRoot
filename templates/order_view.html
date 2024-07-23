@@ -1,12 +1,12 @@
-{% extends 'h_base.html' %}
+{% extends 'base.html' %}
 {% load static %}
 {% block meta %}
 
-    <meta name="description" content="eatroot-delivery-home" />
+    <meta name="description" content="eatroot-home" />
  
 {% endblock %}
 {% block title %}
-eatroot-delivery-home
+eatroot-home
 {% endblock %}
 
 {% block content %}
@@ -15,7 +15,7 @@ eatroot-delivery-home
   <div class="card-header">
     <ul id="myTab" class="nav nav-tabs card-header-tabs">
       <li class="nav-item">
-        <a id="tab-orders" class="nav-link active" aria-current="true" href="#" onclick="showTab('orders', 'tab-orders')">My Orders</a>
+        <a id="tab-orders" class="nav-link active" aria-current="true" href="#" onclick="showTab('orders', 'tab-orders')">Pending</a>
       </li>
       <li class="nav-item">
         <a id="tab-delivery" class="nav-link" href="#" onclick="showTab('delivery', 'tab-delivery')">Out for Delivery</a>
@@ -32,7 +32,7 @@ eatroot-delivery-home
    
       
       {% for order in orders_pending %}
-      <a href="{% url 'hotel_app:order_view' order.id %}">
+      <a href="{% url 'user_app:order' order.id %}">
       <div class="row align-items-center">
       
       
@@ -45,8 +45,7 @@ eatroot-delivery-home
         <div class="col-md-2 d-flex justify-content-center">
           <div>
             <p class="small text-muted mb-4 pb-2">Address</p>
-            <p class="lead fw-normal mb-0">
-              {{order.address}}</p>
+            <p class="lead fw-normal mb-0">{{order.address}}</p>
           </div>
         </div>
         <div class="col-md-2 d-flex justify-content-center">
@@ -82,11 +81,12 @@ eatroot-delivery-home
 
     <div id="delivery" style="display: none;">
       {% if orders_placed or orders_out_for_delivery %}
+   
+      
+      
       {% for order in orders_placed %}
-      
+      <a href="{% url 'user_app:order_confirm' order.id %}">
       <div class="row align-items-center">
-      
-       
         <div class="col-md-2 d-flex justify-content-center">
           <div>
             <p class="small text-muted mb-4 pb-2">Customer</p>
@@ -120,15 +120,13 @@ eatroot-delivery-home
         </div>
         
       </div>
-    
+    </a>
 {% endfor %}
 
       
 {% for order in orders_out_for_delivery %}
-      
+<a href="{% url 'user_app:order_confirm' order.id %}">
 <div class="row align-items-center">
-
- 
   <div class="col-md-2 d-flex justify-content-center">
     <div>
       <p class="small text-muted mb-4 pb-2">Customer</p>
@@ -162,7 +160,7 @@ eatroot-delivery-home
   </div>
   
 </div>
-
+</a>
 {% endfor %}
 {% else %}
 <h5 class="card-title">Orders placed</h5>

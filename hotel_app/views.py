@@ -45,30 +45,33 @@ def setting(request):
         return redirect('hotel_app:home')  # Redirect to the same page to avoid re-submission
     return render(request, 'h_profile.html', {'user_profile': hotel_profile, 'is_new_profile': is_new_profile})
 
-
+@hotel_user_required
 def h_orders(request):
-    STATUS = (
-        ('pending','pending'),
-        ('order placed','order placed'),
-        ('out for delivery', 'out for delivery'),
-        ('delivery compleated','delivery compleated')
-    )
-    hotel = Hotel.objects.get(user = request.user)
-    usr_order = UserOrder.objects.filter(order__hotel=hotel)
-    orders = usr_order.filter(status=STATUS[0])
-    order_placed = usr_order.filter(status=STATUS[1])
-    completed = usr_order.filter(status=STATUS[3])
-    context = {
-        'orders':orders,
-        'order_placed':order_placed,
-        'completed':completed
-
-    }
-   
-
-    return render(request,'h_orders.html',context)
-
-
+    try:
+        hotel = Hotel.objects.get(user=request.user)
+    except Hotel.DoesNotExist:
+        # Handle the case where the hotel for the current user does not exist
+        hotel = None
+    
+    if hotel:
+        user_orders = UserOrder.objects.filter(order__hotel=hotel)
+        orders_pending = user_orders.filter(status='pending')
+        orders_placed = user_orders.filter(status='order_placed')
+        orders_out_for_delivery = user_orders.filter(status='out_for_delivery')
+        orders_completed = user_orders.filter(status='delivery_completed')
+        
+        context = {
+            'orders_pending': orders_pending,
+            'orders_placed': orders_placed,
+            'orders_out_for_delivery': orders_out_for_delivery,
+            'orders_completed': orders_completed,
+        }
+    else:
+        # Handle the case where the hotel is not found or does not exist
+        context = {}
+    
+    return render(request, 'h_orders.html', context)
+@hotel_user_required
 def add_food(request):
     if request.method == "POST":
         h_user = request.user
@@ -93,18 +96,19 @@ def add_food(request):
     categories = Category.objects.all()
     return render(request,'h_add_food.html',{'categories':categories})
 
+@hotel_user_required
 def earnings(request):
     earnings = Hotel.objects.get(user=request.user) 
     return render(request,'h_earnings.html',{'earnings':earnings})
 
-
+@hotel_user_required
 def edit_food(request,f_slug):
     food = Food.objects.get(slug = f_slug)
     cat = Category.objects.get(name=food.category)
     Categories = Category.objects.all()
+   
 
     if request.method == "POST":
-        h_user = request.user
         name = request.POST.get('name')
         category = Category.objects.get(id = request.POST.get('category'))
         price = request.POST.get('price')
@@ -125,7 +129,7 @@ def edit_food(request,f_slug):
         
     
         food.save()
-        hotel = Hotel.objects.get(user = h_user)
+        hotel = Hotel.objects.get(user = request.user)
         hotel.foods.get(slug=f_slug)
         hotel.save()
         return redirect('hotel_app:home')
@@ -133,22 +137,17 @@ def edit_food(request,f_slug):
 
     return render(request,'h_edit_food.html',{'food':food,"cat":cat,'categories':Categories})
 
-
+@hotel_user_required
 def order_view(request,or_id):
-    STATUS = (
-        ('pending','pending'),
-        ('order placed','order placed'),
-        ('out for delivery', 'out for delivery'),
-        ('delivery compleated','delivery compleated')
-    )
+   
     order = UserOrder.objects.get(id=or_id)
     foods = order.order.o_food.all()
     earn = order.order.total_amount-20
+    hotel=Hotel.objects.get(user=request.user)
     if request.method == "POST":
-        hotel=Hotel.objects.get(user=request.user)
         hotel.earn += earn
         hotel.save()
-        order.status = STATUS[1]
+        order.status = 'order_placed'
         order.save()
         return redirect('hotel_app:h_orders')
 

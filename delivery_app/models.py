@@ -16,10 +16,15 @@ class DelUser(models.Model):
     desc = models.TextField(blank=True)
     img = models.ImageField(upload_to='deliverygallery',default="delivery-boy_10367830.png")
     contact = models.CharField(max_length=15,blank=True, null=True)
+    earn = models.DecimalField(default=0,max_digits=10,decimal_places=2,blank=True,null=True)
+    floating = models.DecimalField(default=0,max_digits=10,decimal_places=2,blank=True,null=True)
     class Meta:
         ordering = ('name',)
         verbose_name = 'delivery boy'
         verbose_name_plural = 'delivery boys'
+    
+    def total_earnings(self):
+        return self.earn - self.floating
         
 
     def __str__(self):
