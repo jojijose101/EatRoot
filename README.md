@@ -3,7 +3,7 @@
 This project is a food delivery web application built with Django, MySQL, and Bootstrap. It allows customers to browse restaurants, place orders, and track their status. Delivery boys can view assigned orders and update their status, while restaurants can manage their menus and incoming orders.
 
  - **Deploy Link:** 
-    - Access at [(https://eatroot101.pythonanywhere.com/auth/authentication_userhome/choose/choose](https://eatroot101.pythonanywhere.com/auth/authentication_userhome/choose/choose)
+    - Access at [https://eatroot101.pythonanywhere.com/auth/authentication_userhome/choose/choose](https://eatroot101.pythonanywhere.com/auth/authentication_userhome/choose/choose)
 
 ### Technologies Used
 
