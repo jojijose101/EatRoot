@@ -62,6 +62,12 @@ To set up backend codebase for development follow these steps:
 ## Screenshots
 
 
-![App Screenshot](https://github.com/jojijose101/Anti-sosh/blob/main/screenshot/Screenshot%20from%202024-04-03%2019-36-39.png)
-![App Screenshot](https://github.com/jojijose101/Anti-sosh/blob/main/screenshot/Screenshot%20from%202024-04-03%2019-42-17.png)
-![App Screenshot](https://github.com/jojijose101/Anti-sosh/blob/main/screenshot/Screenshot%20from%202024-04-03%2019-44-21.png)
+![App Screenshot](https://github.com/jojijose101/EatRoot/blob/main/screenshot/Screenshot%20from%202024-07-25%2015-06-46.png)
+![App Screenshot](https://github.com/jojijose101/EatRoot/blob/main/screenshot/Screenshot%20from%202024-07-26%2009-16-40.png)
+![App Screenshot](https://github.com/jojijose101/EatRoot/blob/main/screenshot/Screenshot%20from%202024-07-26%2009-17-57.png)
+![App Screenshot](https://github.com/jojijose101/EatRoot/blob/main/screenshot/Screenshot%20from%202024-07-26%2009-18-42.png)
+![App Screenshot](https://github.com/jojijose101/EatRoot/blob/main/screenshot/Screenshot%20from%202024-07-26%2009-18-58.png)
+![App Screenshot](https://github.com/jojijose101/EatRoot/blob/main/screenshot/Screenshot%20from%202024-07-26%2009-46-22.png)
+![App Screenshot](https://github.com/jojijose101/EatRoot/blob/main/screenshot/Screenshot%20from%202024-07-26%2009-49-12.png)
+![App Screenshot](https://github.com/jojijose101/EatRoot/blob/main/screenshot/Screenshot%20from%202024-07-26%2009-55-09.png)
+![App Screenshot](https://github.com/jojijose101/EatRoot/blob/main/screenshot/Screenshot%20from%202024-07-26%2009-56-13.png)
